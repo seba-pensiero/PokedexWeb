@@ -7,21 +7,37 @@
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
 
-        <% 
-            foreach (dominio.Pokemon poke in ListaPokemon)
+<%--        <% 
+            foreach (dominio.pokemon poke in listapokemon)
             {
         %>
         <div class="col">
             <div class="card">
-                <img src="<%: poke.UrlImagen %>" class="card-img-top" alt="...">
+                <img src="<%: poke.urlimagen %>" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title"><%: poke.Nombre %></h5>
-                    <p class="card-text"><%: poke.Descripcion %></p>
-                    <a href="DetallePokemon.aspx?id=<%: poke.Id %>">Ver Detalle</a>
+                    <h5 class="card-title"><%: poke.nombre %></h5>
+                    <p class="card-text"><%: poke.descripcion %></p>
+                    <a href="detallepokemon.aspx?id=<%: poke.id %>">ver detalle</a>
                 </div>
             </div>
         </div>
-           <% } %>
+           <% } %>--%>
+
+        <asp:Repeater ID="repRepetidor" runat="server">
+            <ItemTemplate>
+                <div class="col">
+                    <div class="card">
+                        <img src="<%#Eval("urlimagen")%>" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title"><%#Eval("nombre")%></h5>
+                            <p class="card-text"><%#Eval("descripcion")%></p>
+                            <a href="detallepokemon.aspx?id=<%#Eval("id")%>">ver detalle</a>
+                            <asp:Button Text="Ejemplo" CssClass="btn btn-primary" runat="server" ID="btnEjemplo" CommandArgument='<%#Eval("Id") %>' CommandName="PokemonId" OnClick="btnEjemplo_Click" />
+                        </div>
+                    </div>
+                </div>
+            </ItemTemplate>
+        </asp:Repeater>
 
     </div>
 
