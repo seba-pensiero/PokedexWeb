@@ -47,6 +47,9 @@ namespace PokedexWeb
                     //Se puede hacer en una sola línea también, así:
                     Pokemon seleccionado = (negocio.listar(id))[0];
 
+                    //guardo Pokemon seleccionado en session
+                    Session.Add("pokeSeleccionado", seleccionado);
+
                     // pre cargar los campos...
                     txtId.Text = id;
                     TxtNombre.Text = seleccionado.Nombre;
@@ -57,6 +60,10 @@ namespace PokedexWeb
                     ddlTipo.SelectedValue = seleccionado.Tipo.Id.ToString();
                     ddlDebilidad.SelectedValue = seleccionado.Debilidad.Id.ToString();
                     txtImagenUrl_TextChanged(sender, e);
+
+                    //Configurar acciones
+                    if (!seleccionado.Activo)
+                        btnInactivar.Text = "Reactivar";
                 }
 
             }
@@ -64,7 +71,6 @@ namespace PokedexWeb
             {
 
                 Session.Add("error", ex);
-                throw;
                 //Acá de puede agregar una redirección a alguna pantalla de error por ejemplo
             }
         }
@@ -139,7 +145,9 @@ namespace PokedexWeb
             try
             {
                 PokemonNegocio negocio = new PokemonNegocio();
-                negocio.eliminarLogico(int.Parse(txtId.Text));
+                Pokemon seleccionado = (Pokemon)Session["pokeSeleccionado"];
+
+                negocio.eliminarLogico(seleccionado.Id, !seleccionado.Activo);
                 Response.Redirect("PokemonsLista.aspx");
             }
             catch (Exception ex)
