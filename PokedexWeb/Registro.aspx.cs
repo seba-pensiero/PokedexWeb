@@ -23,9 +23,11 @@ namespace PokedexWeb
                 Trainee user = new Trainee();
                 TraineeNegocio traineenegocio = new TraineeNegocio();
                 EmailService emailService = new EmailService();
+
                 user.Email = txtEmail.Text;
                 user.Pass = txtPasword.Text;
-                int id = traineenegocio.insetrarNuevo(user);
+                user.Id = traineenegocio.insetrarNuevo(user);
+                Session.Add("trainee", user);
 
                 emailService.armarCorreo(user.Email, "Bienvenida Trainee", "Hola te damos la bienvenida a la App...");
                 emailService.enviarEmail();

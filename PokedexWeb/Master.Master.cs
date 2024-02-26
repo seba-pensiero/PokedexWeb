@@ -12,11 +12,17 @@ namespace PokedexWeb
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!(Page is Login))
+            if (!(Page is Login || Page is Default1 || Page is Registro))
             {
                 if (!Seguridad.sessionActiva(Session["trainee"]))
                     Response.Redirect("Login.aspx", false);
             }
+        }
+
+        protected void btnSalir_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Response.Redirect("Login.aspx");
         }
     }
 }
