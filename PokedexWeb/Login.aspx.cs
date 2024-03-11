@@ -22,6 +22,12 @@ namespace PokedexWeb
             TraineeNegocio negocio = new TraineeNegocio();
             try
             {
+                if (Validacion.validaTextoVacio(txtEmail) || (Validacion.validaTextoVacio(txtPassword)))
+                {
+                    Session.Add("error", "Debes completar ambos campos");
+                    Response.Redirect("Error.aspx");
+                }
+                
                 trainee.Email = txtEmail.Text;
                 trainee.Pass = txtPassword.Text;
                 if (negocio.Login(trainee))
@@ -32,9 +38,10 @@ namespace PokedexWeb
                 else
                 {
                     Session.Add("error", "User o Pass Incorrectos");
-                    Response.Redirect("Error.aspx");
+                    Response.Redirect("Error.aspx", false);
                 }
             }
+            catch (System.Threading.ThreadAbortException ex) { }
             catch (Exception ex)
             {
 
